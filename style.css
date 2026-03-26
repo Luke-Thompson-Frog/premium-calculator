@@ -1,17 +1,7 @@
 :root {
-    --bg-color: #0f172a;
-    --calc-bg: rgba(30, 41, 59, 0.7);
-    --display-bg: rgba(15, 23, 42, 0.6);
-    --btn-bg: rgba(255, 255, 255, 0.05);
-    --btn-hover: rgba(255, 255, 255, 0.1);
-    --btn-active: rgba(255, 255, 255, 0.15);
-    --btn-operator-bg: rgba(139, 92, 246, 0.2);
-    --btn-operator-text: #c4b5fd;
-    --btn-equals-bg: #8b5cf6;
-    --btn-equals-hover: #7c3aed;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --border-color: rgba(255, 255, 255, 0.1);
+    --bg-color: #050000;
+    --text-primary: #ffccaa;
+    --text-secondary: #ff8844;
 }
 
 * {
@@ -23,32 +13,44 @@
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-color);
-    background-image: 
-        radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.15) 0px, transparent 50%);
+    background-image: url('fire-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     color: var(--text-primary);
+    overflow: hidden;
+}
+
+#fireCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    opacity: 0.8;
+    /* Let the swirling fire show through the particles */
 }
 
 .calculator {
     width: 380px;
-    background: var(--calc-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 32px;
+    background: rgba(15, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
     padding: 24px;
-    box-shadow: 
-        0 25px 50px -12px rgba(0, 0, 0, 0.5),
-        inset 0 1px 1px rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--border-color);
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.9),
+        0 0 0 1px rgba(255, 100, 50, 0.3);
 }
 
 .display {
-    background: var(--display-bg);
-    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
     padding: 24px;
     margin-bottom: 24px;
     display: flex;
@@ -58,8 +60,8 @@ body {
     word-wrap: break-word;
     word-break: break-all;
     min-height: 120px;
-    border: 1px solid rgba(0,0,0,0.5);
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255, 80, 0, 0.4);
+    box-shadow: inset 0 5px 20px rgba(0, 0, 0, 0.8);
 }
 
 .previous-operand {
@@ -73,7 +75,8 @@ body {
 .current-operand {
     font-size: 3rem;
     font-weight: 300;
-    color: var(--text-primary);
+    color: #ffaa55;
+    text-shadow: 0 0 15px rgba(255, 100, 0, 0.8);
     line-height: 1.1;
     letter-spacing: -1px;
 }
@@ -86,8 +89,6 @@ body {
 
 .btn {
     cursor: pointer;
-    border: none;
-    outline: none;
     font-family: inherit;
     font-size: 1.5rem;
     font-weight: 500;
@@ -96,39 +97,48 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--btn-bg);
-    color: var(--text-primary);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 
-        0 4px 6px -1px rgba(0, 0, 0, 0.1),
-        inset 0 1px 1px rgba(255, 255, 255, 0.05);
-    border: 1px solid transparent;
+
+    /* Default Number Button Style for Option 1 */
+    background: rgba(50, 0, 0, 0.6);
+    color: #ffccaa;
+    border: 1px solid rgba(255, 50, 50, 0.1);
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
 }
 
 .btn:hover {
-    background: var(--btn-hover);
+    background: rgba(80, 0, 0, 0.8);
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 50, 50, 0.3);
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.15);
 }
 
-.btn:active, .btn.active {
-    background: var(--btn-active);
+.btn:active,
+.btn.active {
+    background: rgba(100, 0, 0, 0.9);
     transform: translateY(1px);
 }
 
+/* Operator Buttons: Glowing Orange */
 .btn-operator {
-    background: var(--btn-operator-bg);
-    color: var(--btn-operator-text);
+    background: transparent;
+    color: #ff9900;
+    border: 1px solid #ff7700;
+    box-shadow: 0 0 10px rgba(255, 119, 0, 0.4), inset 0 0 10px rgba(255, 119, 0, 0.2);
     font-size: 1.75rem;
 }
 
 .btn-operator:hover {
-    background: rgba(139, 92, 246, 0.3);
+    background: rgba(255, 100, 0, 0.15);
+    box-shadow: 0 0 15px rgba(255, 119, 0, 0.7), inset 0 0 15px rgba(255, 119, 0, 0.5);
 }
 
-.btn-clear, .btn-delete {
-    color: #fca5a5;
-    background: rgba(248, 113, 113, 0.1);
+/* Clear/Delete Buttons: Glowing Red */
+.btn-clear,
+.btn-delete {
+    background: transparent;
+    color: #ff3333;
+    border: 1px solid #ff3333;
+    box-shadow: 0 0 10px rgba(255, 51, 51, 0.4), inset 0 0 10px rgba(255, 51, 51, 0.2);
 }
 
 .btn-clear {
@@ -137,8 +147,10 @@ body {
     border-radius: 40px;
 }
 
-.btn-clear:hover, .btn-delete:hover {
-    background: rgba(248, 113, 113, 0.2);
+.btn-clear:hover,
+.btn-delete:hover {
+    background: rgba(255, 51, 51, 0.15);
+    box-shadow: 0 0 15px rgba(255, 51, 51, 0.7), inset 0 0 15px rgba(255, 51, 51, 0.5);
 }
 
 .btn-zero {
@@ -147,29 +159,39 @@ body {
     border-radius: 40px;
 }
 
+/* Equals Button: Solid Bright Red */
 .btn-equals {
-    background: var(--btn-equals-bg);
+    background: #e60000;
     color: white;
     font-size: 2rem;
-    box-shadow: 0 8px 16px -4px rgba(139, 92, 246, 0.5);
+    border: none;
+    box-shadow: 0 0 20px rgba(230, 0, 0, 0.6);
 }
 
 .btn-equals:hover {
-    background: var(--btn-equals-hover);
-    box-shadow: 0 12px 20px -4px rgba(139, 92, 246, 0.6);
+    background: #ff1a1a;
+    box-shadow: 0 0 25px rgba(255, 26, 26, 0.8);
 }
 
-/* Subtle pulse animation for the equals button to draw attention */
 @keyframes softPulse {
-    0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
-    70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+    0% {
+        box-shadow: 0 0 0 0 rgba(230, 0, 0, 0.6);
+    }
+
+    70% {
+        box-shadow: 0 0 0 12px rgba(230, 0, 0, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(230, 0, 0, 0);
+    }
 }
 
 .btn-equals {
-    animation: softPulse 3s infinite;
+    animation: softPulse 2.5s infinite;
 }
 
-.btn-equals:active, .btn-equals.active {
+.btn-equals:active,
+.btn-equals.active {
     animation: none;
 }
