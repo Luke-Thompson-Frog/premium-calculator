@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A premium calculator web application with a sleek dark mode design.">
+    <title>Premium Calculator</title>
+    <!-- Modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calculator">
+        <div class="display">
+            <div class="previous-operand" id="previous-operand"></div>
+            <div class="current-operand" id="current-operand">0</div>
+        </div>
+        <div class="keypad">
+            <button class="btn btn-clear" id="clear">AC</button>
+            <button class="btn btn-delete" id="delete">DEL</button>
+            <button class="btn btn-operator" data-action="operator">÷</button>
+            
+            <button class="btn btn-number" data-action="number">7</button>
+            <button class="btn btn-number" data-action="number">8</button>
+            <button class="btn btn-number" data-action="number">9</button>
+            <button class="btn btn-operator" data-action="operator">×</button>
+            
+            <button class="btn btn-number" data-action="number">4</button>
+            <button class="btn btn-number" data-action="number">5</button>
+            <button class="btn btn-number" data-action="number">6</button>
+            <button class="btn btn-operator" data-action="operator">-</button>
+            
+            <button class="btn btn-number" data-action="number">1</button>
+            <button class="btn btn-number" data-action="number">2</button>
+            <button class="btn btn-number" data-action="number">3</button>
+            <button class="btn btn-operator" data-action="operator">+</button>
+            
+            <button class="btn btn-number btn-zero" data-action="number">0</button>
+            <button class="btn btn-number" data-action="number">.</button>
+            <button class="btn btn-equals" id="equals">=</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
